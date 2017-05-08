@@ -9,7 +9,7 @@
  * Following variables are essential for constructing
  * syntax tree of an expression
  */
-NODE* root;				// Root node of syntax tree
+NODE* root;			// Root node of syntax tree
 NODE* stack[20];		// Temporary stack for nodes to be constructed
 int stackIndex = 0;		// Trailer variable of stack
 
@@ -21,10 +21,10 @@ int stackIndex = 0;		// Trailer variable of stack
 
 // External Variable imported from equationParser.l or equationParser.flex.cpp
 extern char varName[100][100];	// Symbol Table for variable name
-extern int entryNo;				// Trailer variable for symbol table
+extern int entryNo;		// Trailer variable for symbol table
 
 double varValue[100] = { 0 };	// Value Table for variables in symbol Table
-int localEntryNo = 0;			// Temporary entryNo variable for assigning new variables
+int localEntryNo = 0;		// Temporary entryNo variable for assigning new variables
 
 // Pre-definition for some fucntions
 void traverseTree(NODE* node, int i, int j);
@@ -35,19 +35,19 @@ void freeTree(NODE* node);
  * Binds two nodes with '='(Assign) operator.
  * Had variable to be left of the operator
  * i.e.) a=2 -->	'='
- *				    / \
- *				   a   2
+ *			/ \
+ *			a   2
  */
 void nodeAssignment() {
 	NODE* new;
 	NODE* variable;
-								// Because of right-associativity of '='(assign) opreator,
-	new = popStack();			// the value to be assigned is pushed earlier than the variable.
+					// Because of right-associativity of '='(assign) opreator,
+	new = popStack();		// the value to be assigned is pushed earlier than the variable.
 	variable = popStack();		// Therefore, it pops variable and number(or expression) node.
 	pushStack(variable);		// then, it pushes variable node first,
-	pushStack(new);				// number node later.
+	pushStack(new);			// number node later.
 	new = stackReduce('=');		// This will contruct syntax tree for assignment statement,
-	pushStack(new);				// as it does for other operators
+	pushStack(new);			// as it does for other operators
 
 	entryNo = localEntryNo;		// This updates the symbole table trailer variable, when new variable initlaized.
 }
