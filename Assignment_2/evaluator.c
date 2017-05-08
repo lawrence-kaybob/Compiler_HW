@@ -2,27 +2,37 @@
 #include <math.h>
 #include "defs.h"
 #include "evaluator.h"
-	
-// double eval[10];	// 계산하는 값들의 스택
-// int evalIndex = 0;	// eval의 stackIndex
 
-double varValue[MAXENTRY];
+/**
+ * <Variables regarding value table>
+ * Following variables are related to constructing value table
+ * of variables in symbol table.
+ * - varValue : Value table of variables. Indices follows that of symbol table.
+ * - entryNo : External variable from equationParser.l (or equationParser.flex.cpp)
+ *			   to keep track of trailer of symbol table
+ */
+double varValue[MAXENTRY];		
 extern int entryNo;
 
-
+/**
+ * <evaluate(NODE* root)
+ * - Argument
+ *	- root : Root node of subtree to be evaluated.
+ * Evaluate the tree from root.
+ * Evaulation is cascaded from smaller to larger syntax tree
+ */
 double evaluate(NODE* root) {
 	double result;
 
-	switch (root->type) {
-	case DATA:
-		return root->content.data;
-	case VARIABLE:
-		return  evalVariable(root->content.index);
-	case OPERATOR: {
-		// Pop하면서 연산자별로 계산할 것
-		switch (root->content.operator) {
-		case '+':
-			return evalPlus(evaluate(root->left), evaluate(root->right));
+	switch (root->type) {			
+	case DATA:						// If the node contains the number literal,
+		return root->content.data;	// it returns its value
+	case VARIABLE:									// If the node contains the index of table,
+		return  evalVariable(root->content.index);	// it checks its index, and construct its node
+	case OPERATOR: {														// If the node contains operator,
+		switch (root->content.operator) {									// it checks which operator it has
+		case '+':															// then, it returns the result of
+			return evalPlus(evaluate(root->left), evaluate(root->right));	// that operator.
 		case '-':
 			return evalMinus(evaluate(root->left), evaluate(root->right));
 		case '*':
@@ -38,6 +48,13 @@ double evaluate(NODE* root) {
 	}
 }
 
+/**
+ * <printFormatted(double input)>
+ * - Argument
+ *	- input : Value to be printed
+ * Checks the value contains floating point,
+ * then prints as matched type, integer or floating point
+ */
 void printFormatted(double input) {
 	int casted = (int)input;
 	double check = input - casted;
@@ -48,6 +65,12 @@ void printFormatted(double input) {
 		printf("< %d\n", casted);
 }
 
+/**
+ * eval~~(double num1, double num2)>
+ * - Argument
+ *	- num1, num2 : number to be evaluated with specific operator
+ * Returns the result of operator
+ */
 double evalPlus(double num1, double num2)
 {
 	return num1 + num2;
@@ -72,8 +95,11 @@ double evalDivide(double num1, double num2)
 }
 
 
-// nodeVariable과 같이 보면서 생각해야할 듯
-// 한 번에 해결될 것 같지는 않은데....
+/**
+ * <evalVariable(int index)>
+ * - Argument
+ *	- index : index of variable in symbol table
+ * Evaluate the variable node. Returns the value of it*/
 double evalVariable(int index)
 {
 	if (index >= entryNo) {
@@ -85,6 +111,13 @@ double evalVariable(int index)
 	}
 }
 
+/**
+ * <evalAssignment(int index, double val)>
+ * - Argument
+ *	- index : an index of an variable in symbol table
+ *	- val : number literal to assign
+ * Evaluate the index of variable in symbol table, then assign the number
+ * to variable. If the variable is new, intialize it. */
 double evalAssignment(int index, double val) {
 	if (index >= entryNo) {
 		varValue[entryNo++] = val;

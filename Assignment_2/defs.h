@@ -1,5 +1,8 @@
+
+// Defines the following definitions, if it hasn't been defined
 #ifndef DEFS__
 #define DEFS__
+// Token value decalarations for lexical analysis
 #define IDENTIFIER	1
 #define NUM			2
 
@@ -18,12 +21,19 @@
 #define REDUCE		0
 #define ERROR		-1
 
-#define DATA		20
-#define OPERATOR	21
-#define VARIABLE	22
+// Token for distinguishing type
+// of data.
+#define DATA		20	// As an number literal
+#define OPERATOR	21	// As an operator
+#define VARIABLE	22	// As an variable from symbol table
 
-#define MAXENTRY	100
+#define MAXENTRY	100	// Number of maximum entry
 
+/**
+ * <TOKEN Union>
+ * Union declaration for passing the actual value of number literal,
+ * or an variable index of symbol table
+ */
 typedef union {
 	int index;
 	double value;

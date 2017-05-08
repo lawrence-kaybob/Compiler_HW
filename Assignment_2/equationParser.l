@@ -40,11 +40,11 @@ int symbolTableCheck() {
 	char str[100] = {0};
 
 	strncpy(str, yytext, yyleng);
-	for(i = 0; i < entryNo; i++) {
-		if(strcmp(str, varName[i]) == 0)
-			return i;
+	for(i = 0; i < entryNo; i++) {			// Iterates through symbol table
+		if(strcmp(str, varName[i]) == 0)	// If there is a match,
+			return i;						// it returns its index.
 	}
 
-	sprintf(varName[localEntryNo], "%s\0", str);
-	return localEntryNo++;
+	sprintf(varName[localEntryNo], "%s\0", str);	// If there is no such identifier in symbol table
+	return localEntryNo++;							// Add it temporarily.
 }
