@@ -1,3 +1,5 @@
+#ifndef DEFS__
+#define DEFS__
 #define IDENTIFIER	1
 #define NUM			2
 
@@ -13,7 +15,17 @@
 #define WHITESPACE	10
 #define END			11
 
-typedef struct {
-	char name[100];
+#define REDUCE		0
+#define ERROR		-1
+
+#define DATA		20
+#define OPERATOR	21
+#define VARIABLE	22
+
+#define MAXENTRY	100
+
+typedef union {
+	int index;
 	double value;
-}SYMBOL;
+}TOKEN;
+#endif // !DEFS__

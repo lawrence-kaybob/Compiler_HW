@@ -1,12 +1,13 @@
 %{
 #include <string.h>
-#include "equationParser.tab.h"
+#include "defs.h"
 
-extern YYSTYPE yylval;
+extern TOKEN token;
 extern int symbolTableCheck();
 
 char varName[100][100] = {0};
 int entryNo = 0;
+extern int localEntryNo;
 %}
 
 digit [0-9]
@@ -17,8 +18,8 @@ idPrefix	[a-zA-Z_]
 identifier	{idPrefix}({idPrefix}|{digit})*
 
 %%
-{integer}|{floatPoint}|{digit}	{yylval.value = atof(yytext); return NUM;}
-{identifier}					{yylval.index = symbolTableCheck(); return IDENTIFIER;}
+{integer}|{floatPoint}|{digit}	{token.value = atof(yytext); return NUM;}
+{identifier}					{token.index = symbolTableCheck(); return IDENTIFIER;}
 
 \+	{return PLUS;}
 \-	{return MINUS;}
@@ -30,7 +31,7 @@ identifier	{idPrefix}({idPrefix}|{digit})*
 
 [ \t] ; /* ingore white space */
 \n	{return END;}
-.	{yyerror("Lexical Error");}
+.	{printf("Lexical Error\n");}
 
 %%
 
@@ -44,6 +45,6 @@ int symbolTableCheck() {
 			return i;
 	}
 
-	sprintf(varName[i], "%s\0", str);
-	return i;
+	sprintf(varName[localEntryNo], "%s\0", str);
+	return localEntryNo++;
 }
