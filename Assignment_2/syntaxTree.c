@@ -76,6 +76,7 @@ int nodeVariable(int index, int tok) {
 	if (index >= entryNo) {
 		if (tok != ASSIGN) {
 			fprintf(stderr, "Variable Not Defined\n");
+			localEntryNo = entryNo;
 			return  ERROR;
 		}
 	}

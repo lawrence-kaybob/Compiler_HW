@@ -59,6 +59,9 @@ void printFormatted(double input) {
 	int casted = (int)input;
 	double check = input - casted;
 
+	if (isnan(input))
+		return;
+
 	if (check > 0.0000001 || check < -0.0000001)
 		printf("< %f\n", input);
 	else
@@ -117,7 +120,8 @@ double evalVariable(int index)
  *	- index : an index of an variable in symbol table
  *	- val : number literal to assign
  * Evaluate the index of variable in symbol table, then assign the number
- * to variable. If the variable is new, intialize it. */
+ * to variable. If the variable is new, intialize it.
+ */
 double evalAssignment(int index, double val) {
 	if (index >= entryNo) {
 		varValue[entryNo++] = val;

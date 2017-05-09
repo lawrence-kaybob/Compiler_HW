@@ -73,7 +73,7 @@ void parse() {
 		case END: {								// Checks if it reached end of line
 			double result = evaluate(root);		// If it does, it means it is valid expression
 			printFormatted(result);				// So, it iterates through syntax tree, and evaluate
-												// the result value.
+			// traverseTree(root, 0, 0);		// the result value.
 			freeTree(root);						// After evaluation is done, we free the memory
 			free(root);							// of nodes, clearing syntax tree for
 			initializeRoot();					// next expression
@@ -157,6 +157,8 @@ int termStart(int tok) {
 			localTok = factor2(tok);		// it checks for factor 2.
 			localTok = term2(localTok);		// Then, it checks remaining term 2.
 			break;
+		default:
+			localTok = tok;
 		}
 		return localTok;					// End of rule #3.
 	}
