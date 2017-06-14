@@ -51,7 +51,7 @@ identifier	{idPrefix}({idPrefix}|{digit})*
 [ \t] ; /* ingore white space */
 \n	{printDangling();}
 \;	{return EOL;}
-.	{printf("Lexical Error\n");}
+.	{yyerror("lexical error");}
 
 %%
 
