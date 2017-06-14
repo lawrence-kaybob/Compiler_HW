@@ -1,6 +1,6 @@
 %{
 #include <string.h>
-#include "equationParser.Assignment3.tab.h"
+#include "equationParser.tab.h"
 #include "defs.h"
 
 extern YYSTYPE yylval;
