@@ -24,7 +24,7 @@ int yywrap()
 }
 %token <value> NUM
 %token <index> IDENTIFIER
-%token PLUS MINUS MULTIPLY DIVIDE GREATER LESS EQUAL NOTEQUAL LEFTPARAN RIGHTPARAN ASSIGN EOL IF ELSE WHILE END
+%token PLUS MINUS MULTIPLY DIVIDE GREATER LESS EQUAL NOTEQUAL LEFTPARAN RIGHTPARAN ASSIGN EOL IF ELSE WHILE END NL
 
 
 %type <value> expr term factor line statement isEqual
@@ -32,13 +32,14 @@ int yywrap()
 %%
 
 statements:
-	statement				
+	statement			
 	| statements statement
+	| error EOL								{printf("?- ");}
 	;
 
 statement:
 	if statements else end
-	| while statements end					{}
+	| while statements end
 	| line EOL								{treeLine();}
 	;
 
@@ -109,7 +110,7 @@ void main()
  * Following variables are essential for constructing
  * syntax tree of an expression
  */
-NODE* root;				// Root node of syntax tree
+NODE* root = NULL;				// Root node of syntax tree
 NODE* stack[20];		// Temporary stack for nodes to be constructed
 int stackIndex = 0;		// Trailer variable of stack
 
@@ -177,16 +178,17 @@ void nodeNum(double val) {
  * Then, pushed to stack, for further operators.
  */
 void nodeVariable(int index) {
-
+	NODE* new;
+	
 	if (index >= entryNo) {
-		yyerror("Variable not defined");
-		return NAN;
+		 new = createStringNode(101);
+		 localEntryNo = entryNo;
 	}
 	else {
-		NODE* new = createStringNode(index);
-		pushStack(new);
-		return varValue[index];
+		new = createStringNode(index);
 	}
+
+	pushStack(new);
 	
 }
 
