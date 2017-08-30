@@ -14,3 +14,9 @@ Assignment Repository for Compiler Lecture
 - Set the proper environment variables for Windows (Will add details)
 - Open the solution file with Visual Studio 2016
   - Proper custom build setting should be set
+
+### Future TODOs
+
+- [ ] Assignment 2 README Update
+- [ ] Assignment 3 README Update
+- [ ] Add details for setting up development environment variable for Windows & Visual Studio
