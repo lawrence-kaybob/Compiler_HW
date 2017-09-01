@@ -20,7 +20,7 @@ Using Lex and small C code provided, create a program that analyzes words of C c
 - Float-point numbers
   - Follows float-point number rule of C program
 - Strings
-  - All letters could be included inside double quotation mark, except double quotation mark itself should be escaped (\")
+  - All letters could be included inside double quotation mark, except double quotation mark itself should be escaped (\\")
   - You don't have to consider multiple line string
 - Operators
   - +, -, *, /
@@ -35,6 +35,14 @@ Using Lex and small C code provided, create a program that analyzes words of C c
   - /* */
 - Notice
   - Unless addressed, program follows the basic C language grammar.
+
+### Idea
+
+To be added
+
+### Limitations
+
+To be added
 
 ### Example
 
